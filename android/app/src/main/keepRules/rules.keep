@@ -1,0 +1,16 @@
+# Add project specific R8 rules here.
+# AGP will combine all keep rule files in src/main/keepRules to pass to R8
+#
+# For more details, see
+#   https://d.android.com/r/tools/r8/keep-rules
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+# O R8 tirava CollectionsKt__MutableCollectionsJVMKt do pacote kotlin.collections, mas a classe-mãe
+# (CollectionsKt__IterablesKt) só é visível dentro dele: IllegalAccessError ao abrir o release
+# (apareceu com o lifecycle-process, Bloco 2 Tarefa 7). Mantém nome e pacote; ainda pode encolher/otimizar.
+-keep,allowshrinking,allowoptimization class kotlin.collections.CollectionsKt__** { *; }

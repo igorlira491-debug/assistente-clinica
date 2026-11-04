@@ -1,0 +1,848 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 6,
+    "identityHash": "807844375f71b72a15e281a5b2d5ee10",
+    "entities": [
+      {
+        "tableName": "Configuracao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`chave` TEXT NOT NULL, `valor` TEXT NOT NULL, PRIMARY KEY(`chave`))",
+        "fields": [
+          {
+            "fieldPath": "chave",
+            "columnName": "chave",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "valor",
+            "columnName": "valor",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "chave"
+          ]
+        }
+      },
+      {
+        "tableName": "Terapia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `duracaoMin` INTEGER NOT NULL, `ativa` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duracaoMin",
+            "columnName": "duracaoMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ativa",
+            "columnName": "ativa",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "Terapeuta",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `telefone` TEXT NOT NULL, `ativa` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telefone",
+            "columnName": "telefone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ativa",
+            "columnName": "ativa",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Terapeuta_telefone",
+            "unique": true,
+            "columnNames": [
+              "telefone"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Terapeuta_telefone` ON `${TABLE_NAME}` (`telefone`)"
+          }
+        ]
+      },
+      {
+        "tableName": "TerapeutaTerapia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`terapeutaId` INTEGER NOT NULL, `terapiaId` INTEGER NOT NULL, PRIMARY KEY(`terapeutaId`, `terapiaId`), FOREIGN KEY(`terapeutaId`) REFERENCES `Terapeuta`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`terapiaId`) REFERENCES `Terapia`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "terapeutaId",
+            "columnName": "terapeutaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapiaId",
+            "columnName": "terapiaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "terapeutaId",
+            "terapiaId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_TerapeutaTerapia_terapiaId",
+            "unique": false,
+            "columnNames": [
+              "terapiaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_TerapeutaTerapia_terapiaId` ON `${TABLE_NAME}` (`terapiaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Terapeuta",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapeutaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapia",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapiaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Crianca",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `tipo` TEXT NOT NULL, `observacao` TEXT NOT NULL, `ativa` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "observacao",
+            "columnName": "observacao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ativa",
+            "columnName": "ativa",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "CriancaTerapia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`criancaId` INTEGER NOT NULL, `terapiaId` INTEGER NOT NULL, `terapeutaId` INTEGER NOT NULL, PRIMARY KEY(`criancaId`, `terapiaId`), FOREIGN KEY(`criancaId`) REFERENCES `Crianca`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`terapiaId`) REFERENCES `Terapia`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`terapeutaId`) REFERENCES `Terapeuta`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapiaId",
+            "columnName": "terapiaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapeutaId",
+            "columnName": "terapeutaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "criancaId",
+            "terapiaId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_CriancaTerapia_terapiaId",
+            "unique": false,
+            "columnNames": [
+              "terapiaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_CriancaTerapia_terapiaId` ON `${TABLE_NAME}` (`terapiaId`)"
+          },
+          {
+            "name": "index_CriancaTerapia_terapeutaId",
+            "unique": false,
+            "columnNames": [
+              "terapeutaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_CriancaTerapia_terapeutaId` ON `${TABLE_NAME}` (`terapeutaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Crianca",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "criancaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapia",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapiaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapeuta",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapeutaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Responsavel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `telefone` TEXT NOT NULL, `consentiuEm` INTEGER, `versaoTermo` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nome",
+            "columnName": "nome",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "telefone",
+            "columnName": "telefone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consentiuEm",
+            "columnName": "consentiuEm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "versaoTermo",
+            "columnName": "versaoTermo",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Responsavel_telefone",
+            "unique": true,
+            "columnNames": [
+              "telefone"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Responsavel_telefone` ON `${TABLE_NAME}` (`telefone`)"
+          }
+        ]
+      },
+      {
+        "tableName": "CriancaResponsavel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`criancaId` INTEGER NOT NULL, `responsavelId` INTEGER NOT NULL, `principal` INTEGER NOT NULL, PRIMARY KEY(`criancaId`, `responsavelId`), FOREIGN KEY(`criancaId`) REFERENCES `Crianca`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`responsavelId`) REFERENCES `Responsavel`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responsavelId",
+            "columnName": "responsavelId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "principal",
+            "columnName": "principal",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "criancaId",
+            "responsavelId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_CriancaResponsavel_responsavelId",
+            "unique": false,
+            "columnNames": [
+              "responsavelId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_CriancaResponsavel_responsavelId` ON `${TABLE_NAME}` (`responsavelId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Crianca",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "criancaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Responsavel",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "responsavelId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Sessao",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `criancaId` INTEGER NOT NULL, `terapiaId` INTEGER NOT NULL, `terapeutaId` INTEGER NOT NULL, `inicio` INTEGER NOT NULL, `duracaoMin` INTEGER NOT NULL, `familia` TEXT NOT NULL, `terapeuta` TEXT NOT NULL, `origem` TEXT NOT NULL, `tipo` TEXT NOT NULL, `desfecho` TEXT, `familiaConfirmouEm` INTEGER, `lancadaDepoisEm` INTEGER, `lancadaPor` INTEGER, FOREIGN KEY(`criancaId`) REFERENCES `Crianca`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`terapiaId`) REFERENCES `Terapia`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`terapeutaId`) REFERENCES `Terapeuta`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapiaId",
+            "columnName": "terapiaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapeutaId",
+            "columnName": "terapeutaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inicio",
+            "columnName": "inicio",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duracaoMin",
+            "columnName": "duracaoMin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "familia",
+            "columnName": "familia",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapeuta",
+            "columnName": "terapeuta",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "origem",
+            "columnName": "origem",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "desfecho",
+            "columnName": "desfecho",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "familiaConfirmouEm",
+            "columnName": "familiaConfirmouEm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lancadaDepoisEm",
+            "columnName": "lancadaDepoisEm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "lancadaPor",
+            "columnName": "lancadaPor",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Sessao_inicio",
+            "unique": false,
+            "columnNames": [
+              "inicio"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Sessao_inicio` ON `${TABLE_NAME}` (`inicio`)"
+          },
+          {
+            "name": "index_Sessao_criancaId",
+            "unique": false,
+            "columnNames": [
+              "criancaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Sessao_criancaId` ON `${TABLE_NAME}` (`criancaId`)"
+          },
+          {
+            "name": "index_Sessao_terapiaId",
+            "unique": false,
+            "columnNames": [
+              "terapiaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Sessao_terapiaId` ON `${TABLE_NAME}` (`terapiaId`)"
+          },
+          {
+            "name": "index_Sessao_terapeutaId",
+            "unique": false,
+            "columnNames": [
+              "terapeutaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Sessao_terapeutaId` ON `${TABLE_NAME}` (`terapeutaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Crianca",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "criancaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapia",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapiaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapeuta",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapeutaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Horario",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `criancaId` INTEGER NOT NULL, `terapiaId` INTEGER NOT NULL, `diaDaSemana` INTEGER NOT NULL, `hora` INTEGER NOT NULL, `ativo` INTEGER NOT NULL, FOREIGN KEY(`criancaId`) REFERENCES `Crianca`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`terapiaId`) REFERENCES `Terapia`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terapiaId",
+            "columnName": "terapiaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diaDaSemana",
+            "columnName": "diaDaSemana",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hora",
+            "columnName": "hora",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ativo",
+            "columnName": "ativo",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Horario_criancaId",
+            "unique": false,
+            "columnNames": [
+              "criancaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Horario_criancaId` ON `${TABLE_NAME}` (`criancaId`)"
+          },
+          {
+            "name": "index_Horario_terapiaId",
+            "unique": false,
+            "columnNames": [
+              "terapiaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Horario_terapiaId` ON `${TABLE_NAME}` (`terapiaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Crianca",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "criancaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "Terapia",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "terapiaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Pendencia",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tipo` TEXT NOT NULL, `criancaId` INTEGER, `sessaoId` INTEGER, `prazo` INTEGER NOT NULL, `criadaEm` INTEGER NOT NULL, `motivoAdiamento` TEXT, `resolvidaEm` INTEGER, `resolvidaPor` INTEGER, `como` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sessaoId",
+            "columnName": "sessaoId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "prazo",
+            "columnName": "prazo",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "criadaEm",
+            "columnName": "criadaEm",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "motivoAdiamento",
+            "columnName": "motivoAdiamento",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "resolvidaEm",
+            "columnName": "resolvidaEm",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "resolvidaPor",
+            "columnName": "resolvidaPor",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "como",
+            "columnName": "como",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Pendencia_resolvidaEm",
+            "unique": false,
+            "columnNames": [
+              "resolvidaEm"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Pendencia_resolvidaEm` ON `${TABLE_NAME}` (`resolvidaEm`)"
+          },
+          {
+            "name": "index_Pendencia_sessaoId",
+            "unique": false,
+            "columnNames": [
+              "sessaoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Pendencia_sessaoId` ON `${TABLE_NAME}` (`sessaoId`)"
+          }
+        ]
+      },
+      {
+        "tableName": "Registro",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `momento` INTEGER NOT NULL, `usuariaId` INTEGER, `acao` TEXT NOT NULL, `alvo` TEXT, `alvoId` INTEGER, `criancaId` INTEGER, `detalhe` TEXT, `quantidade` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "momento",
+            "columnName": "momento",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "usuariaId",
+            "columnName": "usuariaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "acao",
+            "columnName": "acao",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alvo",
+            "columnName": "alvo",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "alvoId",
+            "columnName": "alvoId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "criancaId",
+            "columnName": "criancaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "detalhe",
+            "columnName": "detalhe",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "quantidade",
+            "columnName": "quantidade",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_Registro_momento",
+            "unique": false,
+            "columnNames": [
+              "momento"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Registro_momento` ON `${TABLE_NAME}` (`momento`)"
+          },
+          {
+            "name": "index_Registro_criancaId",
+            "unique": false,
+            "columnNames": [
+              "criancaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Registro_criancaId` ON `${TABLE_NAME}` (`criancaId`)"
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '807844375f71b72a15e281a5b2d5ee10')"
+    ]
+  }
+}

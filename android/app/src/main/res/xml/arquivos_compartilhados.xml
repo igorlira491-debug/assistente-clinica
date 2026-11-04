@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bloco 8: só a pasta do backup (o arquivo já cifrado) pode ser oferecida, e só ao app que ela escolher. -->
+<paths>
+    <files-path name="backup" path="backup/" />
+</paths>

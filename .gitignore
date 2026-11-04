@@ -1,0 +1,16 @@
+# Chave de assinatura do app: NUNCA no git (cópia de segurança fica fora do computador)
+*.jks
+*.keystore
+local.properties
+.idea/
+# Dados reais, fotos e backups: NUNCA no git
+*.jpeg
+*.jpg
+*.mp4
+*.assistente-backup
+*.assistente
+*.db
+*.db-wal
+*.db-shm
+*.png
+*.pdf
