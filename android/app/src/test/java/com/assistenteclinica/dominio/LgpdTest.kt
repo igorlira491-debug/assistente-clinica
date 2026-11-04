@@ -16,7 +16,7 @@ class LgpdTest {
         val d = DadosDaCrianca(
             "João", TipoCliente.FIXO, "", ativa = false,
             listOf(TerapiaExportada("Fono", "Carla")),
-            listOf(ResponsavelExportado("Maria", "5591988880050", true, LocalDate.of(2026, 11, 1), "v1")),
+            listOf(ResponsavelExportado("Maria", "5511988880050", true, LocalDate.of(2026, 11, 1), "v1")),
             listOf(HorarioExportado(DayOfWeek.MONDAY, LocalTime.of(14, 0), "Fono", ativo = false)),
             listOf(SessaoExportada(em, "Fono", "Carla", TipoSessao.COMUM, Desfecho.FALTOU)),
             emptyList(),
@@ -24,7 +24,7 @@ class LgpdTest {
         val t = textoDaExportacao(d, em)
         listOf(
             "Dados de João guardados no app Assistente", "Gerado em 05/11/2026 14:05", "- Situação: inativa", "- Observação: (nenhuma)",
-            "- Fono, com Carla", "- Maria, 5591988880050 (principal); consentimento em 01/11/2026, termo v1",
+            "- Fono, com Carla", "- Maria, 5511988880050 (principal); consentimento em 01/11/2026, termo v1",
             "- segunda-feira às 14:00, Fono (desativado)", "- 05/11/2026 14:05, Fono com Carla, comum: faltou",
             "PENDÊNCIAS (0)\n- (nenhum)",
         ).forEach { assertTrue("faltou \"$it\" em:\n$t", t.contains(it)) }

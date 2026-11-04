@@ -30,7 +30,7 @@ class ConferenciaTest {
 
     private suspend fun BancoAssistente.preencher(criancasNaOrdem: List<String>) {
         val fono = cadastros().salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        cadastros().salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880060"), setOf(fono))
+        cadastros().salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880060"), setOf(fono))
         criancasNaOrdem.forEach { cadastros().salvarCrianca(Crianca(nome = it, tipo = TipoCliente.FIXO)) }
     }
 

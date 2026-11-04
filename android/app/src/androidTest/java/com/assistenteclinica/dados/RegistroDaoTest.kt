@@ -51,7 +51,7 @@ class RegistroDaoTest {
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
         cadastros.salvarTerapia(Terapia(id = fono, nome = "Fono Teste", duracaoMin = 40, ativa = false))
         val crianca = cadastros.salvarCrianca(Crianca(nome = "Criança Teste A", tipo = TipoCliente.FIXO))
-        val mae = cadastros.vincularResponsavel(crianca, Responsavel(nome = "Mãe Teste", telefone = "5591988880050"), principal = true)
+        val mae = cadastros.vincularResponsavel(crianca, Responsavel(nome = "Mãe Teste", telefone = "5511988880050"), principal = true)
         cadastros.desvincularResponsavel(crianca, mae)
         assertEquals(
             listOf(
@@ -68,17 +68,17 @@ class RegistroDaoTest {
 
     @Test fun acaoQueFalhaNaoDeixaLinha() = runBlocking {
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880051"), setOf(fono))
+        cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880051"), setOf(fono))
         // Mesmo telefone: o índice único recusa, e a linha do registro vai junto (mesma transação).
         assertThrows(Exception::class.java) {
-            runBlocking { cadastros.salvarTerapeuta(Terapeuta(nome = "Outra Teste", telefone = "5591988880051"), setOf(fono)) }
+            runBlocking { cadastros.salvarTerapeuta(Terapeuta(nome = "Outra Teste", telefone = "5511988880051"), setOf(fono)) }
         }
         assertEquals(listOf(Acao.CRIOU, Acao.CRIOU), linhas().map { it.acao })
     }
 
     @Test fun agendaEPendenciasGravamComDetalhe() = runBlocking {
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        val t = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880052"), setOf(fono))
+        val t = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880052"), setOf(fono))
         val crianca = cadastros.salvarCrianca(Crianca(nome = "Criança Teste A", tipo = TipoCliente.AVULSO))
         val ontem = agora.minusDays(1).withHour(10)
         val s = banco.agenda().salvarSessao(
@@ -101,11 +101,11 @@ class RegistroDaoTest {
     // LGPD: depois de ações com nomes e telefones, nada disso aparece em nenhuma coluna do registro.
     @Test fun registroNaoGuardaNomeNemTelefone() = runBlocking {
         val crianca = cadastros.salvarCrianca(Crianca(nome = "Criança Teste A", tipo = TipoCliente.FIXO, observacao = "Mãe só responde à noite"))
-        cadastros.vincularResponsavel(crianca, Responsavel(nome = "Mãe Teste", telefone = "5591988880053"), principal = true)
+        cadastros.vincularResponsavel(crianca, Responsavel(nome = "Mãe Teste", telefone = "5511988880053"), principal = true)
         val tudo = banco.openHelper.readableDatabase.query("SELECT * FROM Registro").use { c ->
             buildString { while (c.moveToNext()) for (i in 0 until c.columnCount) append(c.getString(i)).append('|') }
         }
-        listOf("Criança", "Teste", "Mãe", "noite", "5591988880053").forEach { assertFalse("o registro tem \"$it\"", it in tudo) }
+        listOf("Criança", "Teste", "Mãe", "noite", "5511988880053").forEach { assertFalse("o registro tem \"$it\"", it in tudo) }
     }
 
     // Bloco 8, etapa 4: a pendência "Salvar backup" é uma só, e salvar registra o destino.

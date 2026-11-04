@@ -44,7 +44,7 @@ class CopiaDoBancoTest {
     @Test fun doBancoAoArquivoEDeVoltaComOMesmoCodigo() = runBlocking {
         val banco = abrirBanco(context, chave, nome)
         val fono = banco.cadastros().salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        banco.cadastros().salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880070"), setOf(fono))
+        banco.cadastros().salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880070"), setOf(fono))
         banco.cadastros().salvarCrianca(Crianca(nome = "Criança Teste A", tipo = TipoCliente.AVULSO))
         val copia = copiarBanco(context, chave, nome)
         banco.close()

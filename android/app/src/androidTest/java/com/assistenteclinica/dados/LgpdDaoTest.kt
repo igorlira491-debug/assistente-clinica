@@ -46,16 +46,16 @@ class LgpdDaoTest {
     // João e a irmã têm a mesma mãe; só João tem o pai. Outra criança, de outra família, não pode ser tocada.
     private suspend fun familia(): Familia {
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        val t = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880060"), setOf(fono))
+        val t = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880060"), setOf(fono))
         val joao = cadastros.salvarCrianca(Crianca(nome = "Criança Teste João", tipo = TipoCliente.FIXO, observacao = "Prefere tarde"))
         val irma = cadastros.salvarCrianca(Crianca(nome = "Criança Teste Irmã", tipo = TipoCliente.FIXO))
         val outra = cadastros.salvarCrianca(Crianca(nome = "Criança Teste Outra", tipo = TipoCliente.FIXO))
         cadastros.definirTerapia(CriancaTerapia(joao, fono, t))
         cadastros.definirTerapia(CriancaTerapia(outra, fono, t))
-        val mae = cadastros.vincularResponsavel(joao, Responsavel(nome = "Mãe Teste", telefone = "5591988880061"), principal = true)
-        cadastros.vincularResponsavel(irma, Responsavel(nome = "Mãe Teste", telefone = "5591988880061"), principal = true)
-        val pai = cadastros.vincularResponsavel(joao, Responsavel(nome = "Pai Teste", telefone = "5591988880062"), principal = false)
-        cadastros.vincularResponsavel(outra, Responsavel(nome = "Outro Teste", telefone = "5591988880063"), principal = true)
+        val mae = cadastros.vincularResponsavel(joao, Responsavel(nome = "Mãe Teste", telefone = "5511988880061"), principal = true)
+        cadastros.vincularResponsavel(irma, Responsavel(nome = "Mãe Teste", telefone = "5511988880061"), principal = true)
+        val pai = cadastros.vincularResponsavel(joao, Responsavel(nome = "Pai Teste", telefone = "5511988880062"), principal = false)
+        cadastros.vincularResponsavel(outra, Responsavel(nome = "Outro Teste", telefone = "5511988880063"), principal = true)
         banco.agenda().salvarHorario(Horario(criancaId = joao, terapiaId = fono, diaDaSemana = DayOfWeek.MONDAY, hora = LocalTime.of(14, 0)))
         banco.agenda().salvarHorario(Horario(criancaId = outra, terapiaId = fono, diaDaSemana = DayOfWeek.TUESDAY, hora = LocalTime.of(9, 0)))
         fun sessao(c: Long, quando: LocalDateTime) =
@@ -81,7 +81,7 @@ class LgpdDaoTest {
         assertEquals(listOf("família viajando"), d.pendencias.map { it.motivoAdiamento })
         val texto = textoDaExportacao(d, agora)
         assertTrue(texto.contains("Prefere tarde"))
-        listOf("Outra", "Outro Teste", "Irmã", "5591988880063").forEach { assertFalse("a exportação tem \"$it\"", texto.contains(it)) }
+        listOf("Outra", "Outro Teste", "Irmã", "5511988880063").forEach { assertFalse("a exportação tem \"$it\"", texto.contains(it)) }
         val ultima = banco.registro().ultimos(1).single()
         assertEquals(Triple(Acao.EXPORTOU_OS_DADOS, Alvo.CRIANCA, f.joao), Triple(ultima.acao, ultima.alvo, ultima.alvoId))
         assertNull(banco.lgpd().exportar(999))

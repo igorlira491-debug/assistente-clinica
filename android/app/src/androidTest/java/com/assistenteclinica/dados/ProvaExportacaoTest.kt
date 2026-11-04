@@ -34,7 +34,7 @@ class ProvaExportacaoTest {
         val banco = abrirBanco(context, chave, nome)
         val cadastros = banco.cadastros()
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono Teste", duracaoMin = 40))
-        cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880040"), setOf(fono))
+        cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880040"), setOf(fono))
         cadastros.salvarCrianca(Crianca(nome = "Criança Teste B", tipo = TipoCliente.FIXO))
         banco.configuracao().salvar(Configuracao("teste", "ok"))
         val destino = context.getDatabasePath(nomeCopia).absolutePath

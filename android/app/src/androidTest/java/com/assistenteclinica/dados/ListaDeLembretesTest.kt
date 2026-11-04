@@ -93,7 +93,7 @@ class ListaDeLembretesTest {
         val banco = abrirBanco(context, Random.nextBytes(32), nomeBanco)
         val cadastros = banco.cadastros()
         val fono = cadastros.salvarTerapia(Terapia(nome = "Fono", duracaoMin = 40))
-        val terapeuta = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5591988880030"), setOf(fono))
+        val terapeuta = cadastros.salvarTerapeuta(Terapeuta(nome = "Terapeuta Teste", telefone = "5511988880030"), setOf(fono))
         val crianca = cadastros.salvarCrianca(Crianca(nome = "Criança Teste A", tipo = TipoCliente.FIXO))
         val amanha = agora.toLocalDate().plusDays(1).atTime(14, 0)
         banco.agenda().salvarSessao(
@@ -105,6 +105,6 @@ class ListaDeLembretesTest {
         assertEquals(setOf(TipoLembrete.CONFIRMAR, TipoLembrete.ESCALADA, TipoLembrete.RESUMO, TipoLembrete.COMO_FOI), calculada.map { it.tipo }.toSet())
         lista.salvar(agora, calculada)
         val xml = File(protegido.dataDir, "shared_prefs/$arquivo.xml").readText()
-        listOf("Criança", "Teste", "Fono", "5591988880030").forEach { assertFalse("o arquivo tem \"$it\"", it in xml) }
+        listOf("Criança", "Teste", "Fono", "5511988880030").forEach { assertFalse("o arquivo tem \"$it\"", it in xml) }
     }
 }

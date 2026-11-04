@@ -15,9 +15,9 @@ class MensagensTest {
         Sessao(id, crianca, 20, terapeuta, inicio, 40, familia = familia, origem = Origem.FIXA)
 
     private val nomes = mapOf(10L to "João Teste", 11L to "Maria Teste", 12L to "Pedro Teste")
-    private val ana = Contato(1, "Ana Teste", "5591988880001", principal = true)
-    private val beto = Contato(2, "Beto Teste", "5591988880002")
-    private val carla = Contato(3, "Carla Teste", "5591988880003", principal = true)
+    private val ana = Contato(1, "Ana Teste", "5511988880001", principal = true)
+    private val beto = Contato(2, "Beto Teste", "5511988880002")
+    private val carla = Contato(3, "Carla Teste", "5511988880003", principal = true)
     private val responsaveis = mapOf(10L to listOf(ana, beto), 11L to listOf(ana), 12L to listOf(carla))
     private val quinta = dia(5)
     private val quarta = dia(4)
@@ -103,7 +103,7 @@ class MensagensTest {
         val b = s(2, 11, quinta.atTime(14, 0), familia = Resposta.SIM)
         val semResposta = s(3, 12, quinta.atTime(16, 0))
         val outra = s(4, 12, quinta.atTime(14, 0), terapeuta = 31, familia = Resposta.SIM)
-        val terapeutas = mapOf(30L to Contato(30, "Rita Teste", "5591988880030"), 31L to Contato(31, "Lia Teste", "5591988880031"))
+        val terapeutas = mapOf(30L to Contato(30, "Rita Teste", "5511988880030"), 31L to Contato(31, "Lia Teste", "5511988880031"))
         val r = mensagensParaTerapeutas(listOf(a, b, semResposta, outra), quinta, quarta, { nomes.getValue(it) }, { terapeutas[it] })
         assertEquals(2, r.size)
         val daRita = r.single { it.para.id == 30L }
@@ -112,11 +112,11 @@ class MensagensTest {
     }
 
     @Test fun `link do whatsapp com numero e texto escritos`() {
-        assertEquals("https://wa.me/5591988880001?text=Ol%C3%A1%2C%20Ana%21", linkWhatsApp("(91) 98888-0001", "Olá, Ana!"))
-        assertEquals("https://wa.me/5591988880001?text=a%20b", linkWhatsApp("5591988880001", "a b"))
+        assertEquals("https://wa.me/5511988880001?text=Ol%C3%A1%2C%20Ana%21", linkWhatsApp("(11) 98888-0001", "Olá, Ana!"))
+        assertEquals("https://wa.me/5511988880001?text=a%20b", linkWhatsApp("5511988880001", "a b"))
         assertNull(linkWhatsApp("1234", "Oi"))
         // Emoji e quebra de linha também vão codificados (nada de texto cru na URL).
-        val comEmoji = linkWhatsApp("5591988880001", "Oi 😊\nTchau")!!
+        val comEmoji = linkWhatsApp("5511988880001", "Oi 😊\nTchau")!!
         assertFalse(comEmoji.substringAfter("text=").contains(' '))
         assertTrue(comEmoji.endsWith("Oi%20%F0%9F%98%8A%0ATchau"))
     }
